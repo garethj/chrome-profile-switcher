@@ -131,7 +131,13 @@ let currentProfileDir = null;
 // Initialization
 // ---------------------------------------------------------------------------
 
-async function initialize() {
+let initPromise = null;
+function initialize() {
+  if (!initPromise) initPromise = doInitialize().finally(() => { initPromise = null; });
+  return initPromise;
+}
+
+async function doInitialize() {
   // Load cache for instant display
   try {
     const stored = await chrome.storage.local.get(STORAGE_KEY);
