@@ -143,7 +143,6 @@ async function initialize() {
       computeNext();
       if (nextIndex != null) {
         await updateIcon();
-        updateContextMenus();
       }
     }
   } catch (_) {
@@ -208,7 +207,7 @@ async function refreshProfiles() {
 
     chrome.action.enable();
     await updateIcon();
-    updateContextMenus();
+    await updateContextMenus();
   } catch (e) {
     // Retry once after a short delay
     try {
