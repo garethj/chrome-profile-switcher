@@ -328,20 +328,19 @@ function isLightColor(hex) {
 // Context menus
 // ---------------------------------------------------------------------------
 
-function updateContextMenus() {
-  chrome.contextMenus.removeAll(() => {
-    if (profiles.length < 2 || currentIndex == null) return;
+async function updateContextMenus() {
+  await chrome.contextMenus.removeAll();
+  if (profiles.length < 2 || currentIndex == null) return;
 
-    for (let i = 0; i < profiles.length; i++) {
-      if (i === currentIndex) continue;
-      const profile = profiles[i];
-      chrome.contextMenus.create({
-        id: `move-tab-${profile.directory}`,
-        title: `Move tab to ${profile.name}`,
-        contexts: ["page", "action"],
-      });
-    }
-  });
+  for (let i = 0; i < profiles.length; i++) {
+    if (i === currentIndex) continue;
+    const profile = profiles[i];
+    chrome.contextMenus.create({
+      id: `move-tab-${profile.directory}`,
+      title: `Move tab to ${profile.name}`,
+      contexts: ["page", "action"],
+    });
+  }
 }
 
 // ---------------------------------------------------------------------------
