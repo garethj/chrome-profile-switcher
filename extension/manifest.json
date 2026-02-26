@@ -15,6 +15,15 @@
   "background": {
     "service_worker": "background.js"
   },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "mac": "Alt+Shift+P",
+        "default": "Alt+Shift+P"
+      },
+      "description": "Switch Chrome profile"
+    }
+  },
   "action": {
     "default_title": "Switch Profile"
   },
