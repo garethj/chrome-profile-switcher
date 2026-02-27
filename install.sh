@@ -45,14 +45,29 @@ chmod +x "$INSTALLED_HOST"
 echo "Installed host: $INSTALLED_HOST"
 
 # 3. Get extension ID
+CONFIG_FILE="$SCRIPT_DIR/.install-config"
+
+# Try to load saved extension ID
+EXT_ID=""
+if [[ -f "$CONFIG_FILE" ]]; then
+  while IFS='=' read -r key value; do
+    [[ "$key" == "EXT_ID" ]] && EXT_ID="$value"
+  done < "$CONFIG_FILE"
+fi
+
 echo
-echo "To find your extension ID:"
-echo "  1. Open chrome://extensions in Chrome"
-echo "  2. Enable 'Developer mode' (top right)"
-echo "  3. Load the extension folder: $SCRIPT_DIR/extension"
-echo "  4. Copy the extension ID shown below the extension name"
-echo
-read -rp "Enter the extension ID: " EXT_ID
+if [[ -n "$EXT_ID" ]]; then
+  echo "Using saved extension ID: $EXT_ID"
+  echo "  (To change it, delete $CONFIG_FILE and re-run)"
+else
+  echo "To find your extension ID:"
+  echo "  1. Open chrome://extensions in Chrome"
+  echo "  2. Enable 'Developer mode' (top right)"
+  echo "  3. Load the extension folder: $SCRIPT_DIR/extension"
+  echo "  4. Copy the extension ID shown below the extension name"
+  echo
+  read -rp "Enter the extension ID: " EXT_ID
+fi
 
 if [[ -z "$EXT_ID" ]]; then
   echo "ERROR: Extension ID is required."
@@ -77,6 +92,9 @@ cat > "$MANIFEST_PATH" <<EOF
   ]
 }
 EOF
+# Save extension ID for next time
+echo "EXT_ID=$EXT_ID" > "$CONFIG_FILE"
+
 echo
 echo "Installed native messaging manifest:"
 echo "  $MANIFEST_PATH"

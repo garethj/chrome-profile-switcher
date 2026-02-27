@@ -4,5 +4,8 @@ native-host/run-host.sh
 # macOS
 .DS_Store
 
+# Install config (contains local extension ID)
+.install-config
+
 # Claude Code
 CLAUDE.md
