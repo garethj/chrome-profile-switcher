@@ -96,6 +96,9 @@ async function focusOwnWindow() {
       // Focus the most recently focused window
       const target = windows.find((w) => w.focused) || windows[0];
       await chrome.windows.update(target.id, { focused: true });
+    } else {
+      // No windows open for this profile — create one
+      await chrome.windows.create({});
     }
   } catch (e) {
     console.error("[ProfileSwitcher] Failed to focus window:", e);
